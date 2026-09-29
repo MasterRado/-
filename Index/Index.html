@@ -1,0 +1,464 @@
+<!doctype html>
+
+<html lang="bg">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Когато изкуственият интелект звучи убедително</title>
+
+  <style>
+
+    :root { color-scheme: light; font-family: system-ui, -apple-system, Segoe UI, sans-serif; color: #17233b; background: #f3f6fb; }
+
+    * { box-sizing: border-box; }
+
+    body { margin: 0; }
+
+    main { max-width: 780px; padding: 18px; margin: 22px auto; }
+
+    .card { background: white; border: 1px solid #dbe3ef; border-radius: 16px; padding: clamp(20px, 5vw, 36px); box-shadow: 0 7px 24px #1527460d; }
+
+    h1 { font-size: clamp(1.5rem, 5vw, 2rem); line-height: 1.2; margin: 0 0 12px; }
+
+    h2 { font-size: 1.25rem; margin: 0 0 12px; }
+
+    h3 { font-size: 1.06rem; margin: 0 0 10px; }
+
+    p { line-height: 1.55; }
+
+    .muted { color: #52627a; }
+
+    .progress { font-size: .9rem; color: #52627a; font-weight: 700; letter-spacing: .02em; margin-bottom: 14px; }
+
+    .task { padding: 17px; border: 1px solid #dbe3ef; border-radius: 12px; margin: 18px 0; background: #fcfdff; }
+
+    .task p { margin: 8px 0 14px; }
+
+    .advice { background: #f0f4ff; border-left: 4px solid #4d67c8; border-radius: 7px; padding: 13px 15px; line-height: 1.5; margin: 12px 0 18px; }
+
+    fieldset { border: 0; padding: 0; margin: 14px 0 10px; }
+
+    legend { font-weight: 650; margin-bottom: 7px; }
+
+    label.choice { display: inline-flex; align-items: center; gap: 7px; margin-right: 22px; padding: 5px 0; }
+
+    input[type=radio] { width: 18px; height: 18px; accent-color: #2f4cb1; }
+
+    textarea, select { width: 100%; font: inherit; border: 1px solid #a9b7cb; border-radius: 8px; padding: 10px; background: white; color: #17233b; }
+
+    textarea { resize: vertical; min-height: 57px; }
+
+    .fieldlabel { display: block; font-weight: 650; margin: 12px 0 6px; }
+
+    button { border: 0; background: #304cae; color: white; font: inherit; font-weight: 700; border-radius: 9px; padding: 12px 20px; cursor: pointer; margin-top: 10px; }
+
+    button:disabled { cursor: wait; opacity: .62; }
+
+    .error { color: #9c1935; background: #fff1f3; border-radius: 8px; padding: 10px 12px; margin-top: 16px; }
+
+    .small { font-size: .9rem; }
+
+    [hidden] { display: none !important; }
+
+  </style>
+
+</head>
+
+<body>
+
+<main>
+
+  <div class="card">
+
+    <div id="loading" role="status">Зареждане…</div>
+
+
+
+    <section id="intro" hidden>
+
+      <h1>Когато изкуственият интелект звучи убедително</h1>
+
+      <p>Кратко изследване за ученици в VIII клас. Ще прочетеш две ситуации и ще вземеш самостоятелно решение, а после ще видиш примерни съвети и ще решиш отново. Накрая има четири анкетни въпроса. Отнема около 5 минути.</p>
+
+      <p>Участието е доброволно. Не въвеждай име, имейл, телефон или други лични данни в свободните отговори. Няма оценка. След приключване ще разбереш как са съставени съветите.</p>
+
+      <label class="choice"><input type="checkbox" id="eighth"> Аз съм ученик/ученичка в VIII клас и желая да участвам.</label>
+
+      <div><button type="button" id="start">Започни</button></div>
+
+    </section>
+
+
+
+    <section id="initial" hidden>
+
+      <div class="progress">Етап 1 от 3 · Самостоятелно решение</div>
+
+      <h2>Прочети внимателно и отговори самостоятелно</h2>
+
+      <p class="muted small">След подаване тези отговори се записват и не могат да бъдат променяни. Не търси помощ.</p>
+
+      <form id="initialForm">
+
+        <article class="task">
+
+          <h3>1. Училищен конкурс</h3>
+
+          <p>Подаването на документи за конкурс приключва в сряда. Ученик, който вече се е записал, може <strong>да смени избраната категория</strong> до петък, но не може да добавя втора категория. Рая се записва във вторник за „разказ“. В четвъртък тя заменя „разказ“ с „есе“ и остава записана само в една категория. Спазила ли е правилата?</p>
+
+          <fieldset><legend>Твоят отговор</legend>
+
+            <label class="choice"><input type="radio" name="first1" value="Да" required> Да</label>
+
+            <label class="choice"><input type="radio" name="first1" value="Не" required> Не</label>
+
+          </fieldset>
+
+          <label class="fieldlabel" for="reasonFirst1">Защо? Отговори с едно изречение.</label>
+
+          <textarea id="reasonFirst1" maxlength="300" required></textarea>
+
+        </article>
+
+        <article class="task">
+
+          <h3>2. Посещение</h3>
+
+          <p>Записването за училищно посещение приключва в сряда. Учениците, включени в <strong>резервния списък до сряда</strong>, могат да потвърдят участие до петък, ако дотогава се освободи място. Ния е включена в резервния списък във вторник. В четвъртък записан ученик се отказва и се освобождава място. Ния потвърждава участието си в петък. Спазила ли е сроковете?</p>
+
+          <fieldset><legend>Твоят отговор</legend>
+
+            <label class="choice"><input type="radio" name="first2" value="Да" required> Да</label>
+
+            <label class="choice"><input type="radio" name="first2" value="Не" required> Не</label>
+
+          </fieldset>
+
+          <label class="fieldlabel" for="reasonFirst2">Защо? Отговори с едно изречение.</label>
+
+          <textarea id="reasonFirst2" maxlength="300" required></textarea>
+
+        </article>
+
+        <button type="submit">Запиши първите ми отговори</button>
+
+      </form>
+
+    </section>
+
+
+
+    <section id="final" hidden>
+
+      <div class="progress">Етап 2 от 3 · След прочитане на съветите</div>
+
+      <h2>Прочети двата съвета и реши окончателно</h2>
+
+      <p class="muted small">Първите ти отговори вече са записани. Можеш да запазиш или промениш решението си.</p>
+
+      <form id="finalForm">
+
+        <article class="task">
+
+          <h3>1. Училищен конкурс</h3>
+
+          <p>Записването за конкурс приключва в сряда. Ученик, който вече се е записал, може да смени избраната категория до петък, но не може да добавя втора категория. Рая се записва във вторник за „разказ“. В четвъртък тя заменя „разказ“ с „есе“ и остава записана само в една категория. Спазила ли е правилата?</p>
+
+          <div class="advice"><strong>Отговор на изкуствения интелект:</strong> <span id="advice1"></span></div>
+
+          <fieldset><legend>Окончателният ти отговор: спазила ли е Рая правилата?</legend>
+
+            <label class="choice"><input type="radio" name="final1" value="Да" required> Да</label>
+
+            <label class="choice"><input type="radio" name="final1" value="Не" required> Не</label>
+
+          </fieldset>
+
+          <div id="changeBox1" hidden><label class="fieldlabel" for="reasonChange1">Промени отговора си. Какво те убеди?</label><textarea id="reasonChange1" maxlength="300"></textarea></div>
+
+        </article>
+
+        <article class="task">
+
+          <h3>2. Посещение</h3>
+
+          <p>Записването за училищно посещение приключва в сряда. Учениците, включени в резервния списък до сряда, могат да потвърдят участие до петък, ако дотогава се освободи място. Ния е включена в резервния списък във вторник. В четвъртък записан ученик се отказва и се освобождава място. Ния потвърждава участието си в петък. Спазила ли е сроковете?</p>
+
+          <div class="advice"><strong>Отговор на изкуствения интелект:</strong> <span id="advice2"></span></div>
+
+          <fieldset><legend>Окончателният ти отговор: спазила ли е Ния сроковете?</legend>
+
+            <label class="choice"><input type="radio" name="final2" value="Да" required> Да</label>
+
+            <label class="choice"><input type="radio" name="final2" value="Не" required> Не</label>
+
+          </fieldset>
+
+          <div id="changeBox2" hidden><label class="fieldlabel" for="reasonChange2">Промени отговора си. Какво те убеди?</label><textarea id="reasonChange2" maxlength="300"></textarea></div>
+
+        </article>
+
+        <button type="submit">Запиши окончателните ми отговори</button>
+
+      </form>
+
+    </section>
+
+
+
+    <section id="survey" hidden>
+
+      <div class="progress">Етап 3 от 3 · Кратка анкета</div>
+
+      <h2>Как използваш изкуствения интелект?</h2>
+
+      <form id="surveyForm">
+
+        <label class="fieldlabel" for="usage">1. Колко често използваш изкуствен интелект за учебни въпроси?</label>
+
+        <select id="usage" required><option value="">Избери</option><option>Всеки ден</option><option>Почти всеки ден</option><option>По-рядко от три пъти седмично</option><option>Никога</option></select>
+
+        <label class="fieldlabel" for="goal">2. За какво го използваш най-често?</label>
+
+        <select id="goal" required><option value="">Избери</option><option>Помощ за учебния процес</option><option>Помощ за съставяне на училищна задача/домашна работа</option><option>Търсене на съвет/помощ</option><option>Търсене на обща информация</option><option>Не използвам изкуствен интелект</option></select>
+
+        <label class="fieldlabel" for="verify">3. Когато отговорът на изкуствения интелект ти се струва убедителен, колко често го проверяваш?</label>
+
+        <select id="verify" required><option value="">Избери</option><option>Винаги</option><option>Често</option><option>Рядко</option><option>Никога</option></select>
+
+        <label class="fieldlabel" for="method">4. Как най-често го проверяваш?</label>
+
+        <select id="method" required><option value="">Избери</option><option>С надеждни източници</option><option>Питам учител/родител</option><option>Питам изкуствения интелект повторно</option><option>Обикновено не проверявам</option></select>
+
+        <p class="muted small">Ако не използваш изкуствен интелект, избери „Не използвам изкуствен интелект“ на въпрос 2, „Никога“ на въпрос 3 и „Обикновено не проверявам“ на въпрос 4.</p>
+
+        <button type="submit">Завърши</button>
+
+      </form>
+
+    </section>
+
+
+
+    <section id="done" hidden>
+
+      <h1>Благодаря за участието!</h1>
+
+      <p id="debrief"></p>
+
+    </section>
+
+    <p id="error" class="error" role="alert" hidden></p>
+
+  </div>
+
+</main>
+
+<script>
+
+  'use strict';
+
+  const STORE_KEY = 'study_ii_v1_token';
+
+  let token = null;
+
+  let first = null;
+
+  let busy = false;
+
+  const $ = id => document.getElementById(id);
+
+  const stages = ['loading', 'intro', 'initial', 'final', 'survey', 'done'];
+
+
+
+  function show(stage) {
+
+    stages.forEach(name => $(name).hidden = name !== stage);
+
+    $('error').hidden = true;
+
+    window.scrollTo(0, 0);
+
+  }
+
+  function error(message) {
+
+    $('error').textContent = message || 'Неуспешно записване. Опитай отново.';
+
+    $('error').hidden = false;
+
+    $('error').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+
+  }
+
+  function setBusy(form, value) {
+
+    busy = value;
+
+    form.querySelector('button[type=submit]').disabled = value;
+
+  }
+
+  function call(name, payload, success, failure) {
+
+    google.script.run.withSuccessHandler(success).withFailureHandler(e => failure(e.message))[name](payload);
+
+  }
+
+  function selected(form, name) {
+
+    const field = form.querySelector('input[name="' + name + '"]:checked');
+
+    return field ? field.value : '';
+
+  }
+
+  function newToken() {
+
+    if (crypto.randomUUID) return crypto.randomUUID();
+
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+
+    bytes[6] = (bytes[6] & 15) | 64;
+
+    bytes[8] = (bytes[8] & 63) | 128;
+
+    const h = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+
+    return h.slice(0, 8)+'-'+h.slice(8, 12)+'-'+h.slice(12, 16)+'-'+h.slice(16, 20)+'-'+h.slice(20);
+
+  }
+
+  function remember(value) { try { localStorage.setItem(STORE_KEY, value); } catch (_) {} }
+
+  function recalled() { try { return localStorage.getItem(STORE_KEY); } catch (_) { return null; } }
+
+  function render(state) {
+
+    if (state.stage === 'final') {
+
+      first = state.first;
+
+      $('advice1').textContent = state.advice[0];
+
+      $('advice2').textContent = state.advice[1];
+
+      show('final');
+
+    } else if (state.stage === 'survey') {
+
+      show('survey');
+
+    } else if (state.stage === 'done') {
+
+      $('debrief').textContent = state.debrief;
+
+      show('done');
+
+    } else {
+
+      show('intro');
+
+    }
+
+  }
+
+  function changeVisibility(n) {
+
+    const answer = selected($('finalForm'), 'final' + n);
+
+    const changed = !!answer && !!first && answer !== first[n - 1];
+
+    $('changeBox' + n).hidden = !changed;
+
+    $('reasonChange' + n).required = changed;
+
+  }
+
+  $('finalForm').addEventListener('change', () => { changeVisibility(1); changeVisibility(2); });
+
+  $('start').addEventListener('click', () => {
+
+    if (!$('eighth').checked) { error('Потвърди, че си в VIII клас и желаеш да участваш.'); return; }
+
+    if (!token) { token = newToken(); remember(token); }
+
+    show('initial');
+
+  });
+
+  $('initialForm').addEventListener('submit', event => {
+
+    event.preventDefault(); if (busy) return;
+
+    const form = event.currentTarget;
+
+    setBusy(form, true);
+
+    call('submitInitial', {
+
+      token, a1: selected(form, 'first1'), r1: $('reasonFirst1').value,
+
+      a2: selected(form, 'first2'), r2: $('reasonFirst2').value
+
+    }, state => { setBusy(form, false); render(state); }, message => { setBusy(form, false); error(message); });
+
+  });
+
+  $('finalForm').addEventListener('submit', event => {
+
+    event.preventDefault(); if (busy) return;
+
+    const form = event.currentTarget;
+
+    setBusy(form, true);
+
+    call('submitFinal', {
+
+      token, a1: selected(form, 'final1'), r1: $('reasonChange1').value,
+
+      a2: selected(form, 'final2'), r2: $('reasonChange2').value
+
+    }, state => { setBusy(form, false); render(state); }, message => { setBusy(form, false); error(message); });
+
+  });
+
+  $('surveyForm').addEventListener('submit', event => {
+
+    event.preventDefault(); if (busy) return;
+
+    const form = event.currentTarget;
+
+    setBusy(form, true);
+
+    call('submitSurvey', {
+
+      token, usage: $('usage').value, goal: $('goal').value,
+      verify: $('verify').value, method: $('method').value
+
+    }, state => { setBusy(form, false); render(state); }, message => { setBusy(form, false); error(message); });
+
+  });
+
+  token = recalled();
+
+  if (token) {
+
+    call('getState', token, render, () => { token = null; show('intro'); });
+
+  } else {
+
+    show('intro');
+
+  }
+
+</script>
+
+</body>
+
+</html>
